@@ -1,8 +1,7 @@
 import csv
-
 import Analyzer
-way_to_keyboard_key_file = r"test_files\key_example.csv"
-way_to_mouse_key_file = r"test_files\mkey_example.csv"
+way_to_keyboard_key_file = r"main\test_files\key_example.csv"
+way_to_mouse_key_file = r"main\test_files\mkey_example.csv"
 keyboard_keys_pop = ('e', '')
 mouse_keys_pop = ('ouse_ke', '')
 

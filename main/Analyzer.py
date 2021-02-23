@@ -7,7 +7,7 @@ class Analysis:
         self.pop_objects = pop_objects
         if auto_count:
             self.CountKeys()
-            self.SymmetricSlice
+            self.SymmetricSlice()
 
     def CountKeys(self):
 
