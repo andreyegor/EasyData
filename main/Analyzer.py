@@ -1,18 +1,19 @@
 class Analysis:
     text = None
-    pop_objects = None
     keys_count = None
 
-    def __init__(self, text, pop_objects=[]):
+    def __init__(self, text, pop_objects=[], auto_count=True):
         self.text = text
         self.pop_objects = pop_objects
-        self.keys_count = self.CountKeys()
+        if auto_count:
+            self.CountKeys()
+            self.SymmetricSlice
 
     def CountKeys(self):
 
         keys = {}
         line_1_old = []
-        wrong_file_format_error = "Error: wrong file format"
+
         for line in self.text:
             line_1 = line[1][1:-1].split(",")
             if(line_1_old != line_1):
@@ -25,18 +26,28 @@ class Analysis:
         for key in line_1:
             self.AddKey(key, keys)
 
+        out = self.PopObjects(keys)
+        self.keys_count = out
+        return(out)
+
+    def PopObjects(self, keys):
+        wrong_file_format_error = "Error: wrong file format"
         for pop_object in self.pop_objects:
             keys.pop(pop_object, wrong_file_format_error)
         return(keys)
 
     def SymmetricSlice(self, slice=1):
-        out_dict = {}
-        for dict_key in self.keys_count:
-            out_dict[dict_key[slice:slice*-1]] = self.keys_count[dict_key]
-        self.keys_count = out_dict
+        out = {}
+        for key in self.keys_count:
+            out[key[slice:slice*-1]] = self.keys_count[key]
+        self.keys_count = out
+        return out
 
     def AddKey(self, key, keys):
         try:
             keys[key] += 1
         except:
             keys[key] = 1
+
+    def GetKeysCount(self):
+        return self.keys_count
