@@ -2,7 +2,6 @@ class Analysis:
     text = None
     keys_count = None
     good_lines = None
-    keys = None
 
     def __init__(self, text, pop_objects=[], auto_count=True):
         self.text = text
@@ -10,7 +9,8 @@ class Analysis:
         self.GoodLines()
         if auto_count:
             self.CountKeys()
-            self.SymmetricSlice()
+            self.SymmetricSlice(self.keys_count)
+            self.PopObjects()
 
     def CountKeys(self):
         keys = {}
@@ -33,17 +33,19 @@ class Analysis:
         self.good_lines = out
         return out
 
-    def PopObjects(self, keys):
+    def PopObjects(self):
         wrong_file_format_error = "Error: wrong file format"
+        out = self.keys_count
         for pop_object in self.pop_objects:
-            keys.pop(pop_object, wrong_file_format_error)
-        return(keys)
-
-    def SymmetricSlice(self, slice=1):
-        out = {}
-        for key in self.keys_count:
-            out[key[slice:slice*-1]] = self.keys_count[key]
+            out.pop(pop_object, wrong_file_format_error)
         self.keys_count = out
+        return out
+
+    def SymmetricSlice(self, in_dict, slice=1):
+        out = {}
+        for key in in_dict:
+            out[key[slice:slice*-1]] = in_dict[key]
+        in_dict = out
         return out
 
     def AddKey(self, key, keys):
