@@ -7,6 +7,7 @@ mouse_keys_pop = ('ouse_ke', '')
 
 keyboard_key_file = open(way_to_keyboard_key_file, newline='')
 mouse_key_file = open(way_to_mouse_key_file, newline='')
+
 analysed_keyboard = Analyzer.Analysis(
     csv.reader(keyboard_key_file), keyboard_keys_pop)
 analysed_mouse = Analyzer.Analysis(csv.reader(mouse_key_file), mouse_keys_pop)
