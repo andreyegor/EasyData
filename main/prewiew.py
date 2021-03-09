@@ -1,4 +1,5 @@
 import csv
+import matplotlib.pyplot as plt
 
 
 class Analysis:
@@ -101,6 +102,27 @@ class Analysis:
         return self.keys_count
 
 
+def CreatePie(indict, name='Pie'):
+    vals = list(map(int, indict.values()))
+    tlabels = list(indict.keys())
+    ax = plt.subplots()[1]
+    ax.pie(vals, labels=tlabels)
+    ax.axis("equal")
+    plt.show()
+
+
+def CreateBar(indict, name='Bar'):  # доделать
+    vals = list(map(int, indict.values()))
+    tlabels = list(indict.keys())
+    fig, ax = plt.subplots()
+    ax.bar(range(len(vals)), vals)
+    ax.set_facecolor('seashell')
+    fig.set_facecolor('floralwhite')
+    fig.set_figwidth(12)  # ширина Figure
+    fig.set_figheight(6)  # высота Figure
+    plt.show()
+
+
 # Constants
 DEFAULT_LANG = 'RU'
 LANG_RESOURSES = {
@@ -164,12 +186,14 @@ while True:
             tfile.close()
             print(LANG_RESOURSES[LANG]['Pressing count'])
             print(analysed.GetKeysCount())
+
         except FileNotFoundError:
             print(LANG_RESOURSES[LANG]['File not found'])
         except IsADirectoryError:
             print(LANG_RESOURSES[LANG]['Directory'])
         except:
             print(LANG_RESOURSES[LANG]['Error'])
+    CreatePie(analysed.GetKeysCount(), name=line)
     print(LANG_RESOURSES[LANG]['Exit'])
 res = open('res', 'w')
 res.write(LANG)
