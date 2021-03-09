@@ -150,7 +150,7 @@ print(LANG_RESOURSES[LANG]['Chainge language'])
 print(LANG_RESOURSES[LANG]['Exit'])
 while True:
     print(LANG_RESOURSES[LANG]['Way to the file'])
-    line = input()
+    line = str(input())
     if line in LANG_RESOURSES.keys():
         LANG = line
         print(LANG_RESOURSES[LANG]['Chainge language sucsess'])
