@@ -193,7 +193,7 @@ while True:
             print(LANG_RESOURSES[LANG]['Directory'])
         except:
             print(LANG_RESOURSES[LANG]['Error'])
-    CreatePie(analysed.GetKeysCount(), name=line)
+    # CreatePie(analysed.GetKeysCount(), name=line) не требуется по заданию
     print(LANG_RESOURSES[LANG]['Exit'])
 res = open('res', 'w')
 res.write(LANG)
