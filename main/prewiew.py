@@ -102,24 +102,22 @@ class Analysis:
         return self.keys_count
 
 
-def CreatePie(indict, name='Pie'):
+def CreatePie(indict, name='Pie', n=5):
+    """Create pie graph from dictionary
+
+    Args:
+        indict (dict): dictionary {name: data}
+        name (str, optional): Window name. Defaults to 'Pie'.
+        n (int, optional): qwantity of segments. Defaults to 5.
+    """
     vals = list(map(int, indict.values()))
+    vals = vals[:min(len(vals), n)]
     tlabels = list(indict.keys())
-    ax = plt.subplots()[1]
+    tlabels = tlabels[:min(len(tlabels), n)]
+    fig, ax = plt.subplots()
     ax.pie(vals, labels=tlabels)
     ax.axis("equal")
-    plt.show()
-
-
-def CreateBar(indict, name='Bar'):  # доделать
-    vals = list(map(int, indict.values()))
-    tlabels = list(indict.keys())
-    fig, ax = plt.subplots()
-    ax.bar(range(len(vals)), vals)
-    ax.set_facecolor('seashell')
-    fig.set_facecolor('floralwhite')
-    fig.set_figwidth(12)  # ширина Figure
-    fig.set_figheight(6)  # высота Figure
+    fig.canvas.set_window_title(name)
     plt.show()
 
 
@@ -154,8 +152,8 @@ LANG_RESOURSES = {
         'Error': "Ошибка"
     }
 }
-DEFAULT_KEYBOARD_WAY = r"test_files\key_example.csv"
-DEFAULT_MOUSE_WAY = r"test_files\mkey_example.csv"
+DEFAULT_KEYBOARD_WAY = r"key_example.csv"
+DEFAULT_MOUSE_WAY = r"mkey_example.csv"
 
 # Get language
 try:
@@ -167,34 +165,53 @@ try:
 except:
     LANG = DEFAULT_LANG
 
-# Input logic
-print(LANG_RESOURSES[LANG]['Chainge language'])
-print(LANG_RESOURSES[LANG]['Exit'])
-while True:
-    print(LANG_RESOURSES[LANG]['Way to the file'])
-    line = str(input())
-    if line in LANG_RESOURSES.keys():
-        LANG = line
-        print(LANG_RESOURSES[LANG]['Chainge language sucsess'])
-    elif line == 'EXIT':
-        break
-    else:
-        try:
-            tfile = open(line, newline='')
-            analysed = Analysis(
-                csv.reader(tfile))
-            tfile.close()
-            print(LANG_RESOURSES[LANG]['Pressing count'])
-            print(analysed.GetKeysCount())
-
-        except FileNotFoundError:
-            print(LANG_RESOURSES[LANG]['File not found'])
-        except IsADirectoryError:
-            print(LANG_RESOURSES[LANG]['Directory'])
-        except:
-            print(LANG_RESOURSES[LANG]['Error'])
-    # CreatePie(analysed.GetKeysCount(), name=line) не требуется по заданию
+if __name__ == '__main__':
+    # main program
+    print(LANG_RESOURSES[LANG]['Chainge language'])
     print(LANG_RESOURSES[LANG]['Exit'])
-res = open('res', 'w')
-res.write(LANG)
-res.close()
+    while True:
+        print(LANG_RESOURSES[LANG]['Way to the file'])
+        line = str(input())
+        if line in LANG_RESOURSES.keys():
+            LANG = line
+            print(LANG_RESOURSES[LANG]['Chainge language sucsess'])
+        elif line == 'EXIT':
+            break
+        else:
+            try:
+                if str(line) == 'K':
+                    tfile = DEFAULT_KEYBOARD_WAY
+                if str(line) == 'M':
+                    tfile = DEFAULT_MOUSE_WAY
+                tfile = open(line, newline='')
+                analysed = Analysis(
+                    csv.reader(tfile))
+                tfile.close()
+                print(LANG_RESOURSES[LANG]['Pressing count'])
+                print(analysed.GetKeysCount())
+                try:
+                    text_line = line.replace('.csv', '')+' output'
+                    f = open(text_line+'.csv', 'w')
+                    vals = list(analysed.GetKeysCount().values())
+                    keys = list(analysed.GetKeysCount().keys())
+                    f.write('клавиша, количество нажатий')
+                    for i in range(len(analysed.GetKeysCount())):
+                        f.write(str(keys[i])+','+str(vals[i])+'\n')
+                    f.close()
+                except:
+                    pass  # not stop program
+                try:
+                    CreatePie(analysed.GetKeysCount(), name=text_line)
+                except:
+                    pass  # not stop program
+
+            except FileNotFoundError:
+                print(LANG_RESOURSES[LANG]['File not found'])
+            except IsADirectoryError:
+                print(LANG_RESOURSES[LANG]['Directory'])
+            except:
+                print(LANG_RESOURSES[LANG]['Error'])
+        print(LANG_RESOURSES[LANG]['Exit'])
+    res = open('res', 'w')
+    res.write(LANG)
+    res.close()
