@@ -134,7 +134,9 @@ LANG_RESOURSES = {
         'Directory': "This is the way to the folder, not the file",
         'Please wait': "Please wait",
         'Pressing count': "Pressing count:",
+        'File title': "key, number of clicks",
         'File analyzed': "File analyzed",
+        'File saved': "File saved!",
         'Error': "Error"
     },
 
@@ -149,6 +151,8 @@ LANG_RESOURSES = {
         'Please wait': "Пожалуйста подождите",
         'Pressing count': "Количество нажатий:",
         'File analysed': "Файл проанализирован",
+        'File title': "клавиша, количество нажатий",
+        'File saved': "Файл сохранен!",
         'Error': "Ошибка"
     }
 }
@@ -191,12 +195,13 @@ if __name__ == '__main__':
                 print(analysed.GetKeysCount())
                 try:
                     text_line = line.replace('.csv', '')+' output'
-                    f = open(text_line+'.csv', 'w')
+                    f = open(text_line+'.csv', 'w', encoding='utf-8')
                     vals = list(analysed.GetKeysCount().values())
                     keys = list(analysed.GetKeysCount().keys())
-                    f.write('клавиша, количество нажатий')
+                    f.write(LANG_RESOURSES[LANG]['File title']+'\n')
                     for i in range(len(analysed.GetKeysCount())):
                         f.write(str(keys[i])+','+str(vals[i])+'\n')
+                    print(LANG_RESOURSES[LANG]['File saved'])
                     f.close()
                 except:
                     pass  # not stop program
